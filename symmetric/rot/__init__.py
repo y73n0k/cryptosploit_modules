@@ -1,6 +1,6 @@
 import string
 
-from modules import BaseModule
+from CSmodules import BaseModule
 
 
 class Rot(BaseModule):
