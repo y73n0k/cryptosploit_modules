@@ -25,6 +25,9 @@ class Environment:
     def __str__(self):
         return dumps(self.__vars, indent=4, cls=VariableEncoder)
 
+    def __contains__(self, item):
+        return item in self.__vars
+
     def get_var(self, name):
         if name in self.__vars:
             return self.__vars[name]
