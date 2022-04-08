@@ -24,7 +24,7 @@ class Rot(BaseModule):
     def run(self):
         if not self.env.get_var("key").value.isdigit():
             print("Key must be a natural number!")
-        match self.env.get_var("mode"):
+        match self.env.get_var("mode").value:
             case "attack":
                 self.attack()
             case "decrypt":
