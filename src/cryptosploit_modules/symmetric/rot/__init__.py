@@ -1,6 +1,6 @@
 import string
 
-from CSmodules import BaseModule
+from cryptosploit_modules import BaseModule
 
 
 class Rot(BaseModule):
