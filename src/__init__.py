@@ -4,7 +4,7 @@ from os.path import dirname, join, exists
 from sys import modules
 from json import dumps, JSONEncoder
 
-from src.exceptions import ModuleError
+from cryptosploit.exceptions import ModuleError
 
 
 class VariableEncoder(JSONEncoder):
