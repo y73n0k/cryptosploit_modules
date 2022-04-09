@@ -1,6 +1,7 @@
 import string
 
 from cryptosploit_modules import BaseModule
+from cryptosploit.exceptions import ModuleError
 
 
 class Rot(BaseModule):
@@ -13,7 +14,7 @@ class Rot(BaseModule):
                 plaintext += alphabet[(alphabet.find(letter) + key) % len(alphabet)]
             else:
                 plaintext += letter
-        print("[RESULT]", plaintext)
+        print("[OUTPUT]", plaintext)
 
     def decrypt(self):
         key = self.env.get_var("key").value
@@ -35,7 +36,7 @@ class Rot(BaseModule):
             case "encrypt":
                 self.encrypt()
             case _:
-                print("No such mode!")
+                raise ModuleError("No such mode!")
 
 
 module = Rot()

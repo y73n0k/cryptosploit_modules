@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from os.path import dirname, join, exists
 from sys import modules
 from json import dumps, JSONEncoder
+from abc import ABCMeta, abstractmethod
 
 from cryptosploit.exceptions import ModuleError
 
@@ -46,8 +47,7 @@ class Environment:
                 self.__vars[row["name"]] = Variable(row["default_value"], row["description"])
 
 
-class BaseModule:
-
+class BaseModule(metaclass=ABCMeta):
     def __init__(self):
         self.path = modules[self.__class__.__module__].__file__
         self.env = self.load()
@@ -60,3 +60,9 @@ class BaseModule:
             env.load_config(config_path)
             return env
         raise ModuleError(f"No such file: {config_path}")
+
+    @abstractmethod
+    def run(self):
+        """
+        Required to be overridden in the child class
+        """
