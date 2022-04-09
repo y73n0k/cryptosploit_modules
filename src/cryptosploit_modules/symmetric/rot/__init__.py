@@ -16,7 +16,10 @@ class Rot(BaseModule):
         print("[RESULT]", plaintext)
 
     def decrypt(self):
-        ...
+        key = self.env.get_var("key").value
+        self.env.set_var("key", "-" + key)
+        self.encrypt()
+        self.env.set_var("key", key)
 
     def attack(self):
         ...
