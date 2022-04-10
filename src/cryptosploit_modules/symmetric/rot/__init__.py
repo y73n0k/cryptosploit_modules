@@ -1,7 +1,5 @@
-import string
-
 from cryptosploit_modules import BaseModule
-from cryptosploit.exceptions import ModuleError
+from cryptosploit.exceptions import ModuleError, ArgError
 
 
 class Rot(BaseModule):
@@ -31,11 +29,11 @@ class Rot(BaseModule):
 
     def run(self):
         if not self.env.get_var("key").value.isdigit():
-            print("Key must be a natural number!")
+            raise ArgError("Key must be a natural number!")
         try:
             func = getattr(self, self.env.get_var("mode").value)
             result = func()
-            print("[OUTPUT]", result)
+            print("[+]", result)
         except AttributeError:
             raise ModuleError("No such mode!")
 

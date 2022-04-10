@@ -1,16 +1,11 @@
-from csv import DictReader
+from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
 from os.path import dirname, join, exists
 from sys import modules
-from json import dumps, JSONEncoder
-from abc import ABCMeta, abstractmethod
+from tabulate import tabulate
+from json import load
 
-from cryptosploit.exceptions import ModuleError
-
-
-class VariableEncoder(JSONEncoder):
-    def default(self, o):
-        return o.__dict__
+from cryptosploit.exceptions import ModuleError, ArgError
 
 
 @dataclass()
@@ -24,7 +19,9 @@ class Environment:
         self.__vars = dict()
 
     def __str__(self):
-        return dumps(self.__vars, indent=4, cls=VariableEncoder)
+        headers = ["Name", "Value", "Description"]
+        items = [[name, var.value, var.description] for name, var in self.__vars.items()]
+        return tabulate(items, headers, tablefmt="fancy_grid")
 
     def __contains__(self, item):
         return item in self.__vars
@@ -32,19 +29,18 @@ class Environment:
     def get_var(self, name):
         if name in self.__vars:
             return self.__vars[name]
-        print("No such variable")
+        raise ArgError("No such variable")
 
     def set_var(self, name, val):
         if name in self.__vars:
             self.__vars[name].value = val
         else:
-            print("No such variable")
+            raise ArgError("No such variable")
 
     def load_config(self, config_path):
-        with open(config_path, newline="") as f:
-            reader = DictReader(f, delimiter=",", quotechar="\"")
-            for row in reader:
-                self.__vars[row["name"]] = Variable(row["default_value"], row["description"])
+        with open(config_path) as f:
+            for name, params in load(f).items():
+                self.__vars[name] = Variable(**params)
 
 
 class BaseModule(metaclass=ABCMeta):
@@ -54,7 +50,7 @@ class BaseModule(metaclass=ABCMeta):
 
     def load(self):
         directory = dirname(self.path)
-        config_path = join(directory, "config.csv")
+        config_path = join(directory, "config.json")
         if exists(config_path):
             env = Environment()
             env.load_config(config_path)
