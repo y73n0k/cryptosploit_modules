@@ -1,3 +1,6 @@
+import string
+from re import compile
+
 from cryptosploit_modules import BaseModule
 from cryptosploit.exceptions import ModuleError, ArgError
 
@@ -24,8 +27,16 @@ class Rot(BaseModule):
         return result
 
     def attack(self):
-        result = self.encrypt()
-        return result
+        results = []
+        pattern = compile(self.env.get_var("contains").value or ".*")
+        alphabet = self.env.get_var("alphabet").value.upper()
+        for alphabet in [alphabet, string.ascii_uppercase, string.ascii_uppercase+string.digits,
+                         string.ascii_uppercase+string.digits+string.punctuation]:
+            for key in range(len(alphabet)):
+                self.env.set_var("key", str(key))
+                if pattern.match(r := self.decrypt()):
+                    results.append(r)
+        return "\n".join(set(results))
 
     def run(self):
         if not self.env.get_var("key").value.isdigit():
@@ -33,7 +44,7 @@ class Rot(BaseModule):
         try:
             func = getattr(self, self.env.get_var("mode").value)
             result = func()
-            print("[+]", result)
+            print(*("[+] Result:\n", result) if result else "[-] Result:\nNone", sep="")
         except AttributeError:
             raise ModuleError("No such mode!")
 
