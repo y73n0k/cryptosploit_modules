@@ -6,37 +6,38 @@ from cryptosploit.exceptions import ModuleError
 
 class Rot(BaseModule):
     def encrypt(self):
-        plaintext = ""
+        result = ""
         key = int(self.env.get_var("key").value)
-        alphabet = self.env.get_var("alphabet").value
-        for letter in self.env.get_var("input").value:
-            if letter in alphabet:
-                plaintext += alphabet[(alphabet.find(letter) + key) % len(alphabet)]
+        alphabet = self.env.get_var("alphabet").value.upper()
+        inp = self.env.get_var("input").value
+        for ind, char in enumerate(inp.upper()):
+            if char in alphabet:
+                res_char = alphabet[(alphabet.find(char) + key) % len(alphabet)]
+                result += res_char if inp[ind].isupper() else res_char.lower()
             else:
-                plaintext += letter
-        print("[OUTPUT]", plaintext)
+                result += char
+        return result
 
     def decrypt(self):
         key = self.env.get_var("key").value
         self.env.set_var("key", "-" + key)
-        self.encrypt()
+        result = self.encrypt()
         self.env.set_var("key", key)
+        return result
 
     def attack(self):
-        ...
+        result = self.encrypt()
+        return result
 
     def run(self):
         if not self.env.get_var("key").value.isdigit():
             print("Key must be a natural number!")
-        match self.env.get_var("mode").value:
-            case "attack":
-                self.attack()
-            case "decrypt":
-                self.decrypt()
-            case "encrypt":
-                self.encrypt()
-            case _:
-                raise ModuleError("No such mode!")
+        try:
+            func = getattr(self, self.env.get_var("mode").value)
+            result = func()
+            print("[OUTPUT]", result)
+        except AttributeError:
+            raise ModuleError("No such mode!")
 
 
 module = Rot()
