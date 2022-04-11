@@ -1,5 +1,5 @@
 from cryptosploit_modules import BaseModule
-from cryptosploit.exceptions import ModuleError, ArgError
+from cryptosploit.exceptions import ModuleError
 
 
 class Atbash(BaseModule):

@@ -1,0 +1,26 @@
+{
+    "mode": {
+        "value": "attack",
+        "description": "Operation mode. May be attack/decrypt/encrypt"
+    },
+    "key": {
+        "value": "1",
+        "description": "Value of key"
+    },
+    "offset": {
+        "value": "1",
+        "description": "Value of key"
+    },
+    "input": {
+        "value": "",
+        "description": "Initial string"
+    },
+    "alphabet": {
+        "value": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "description": "Initial alphabet"
+    },
+    "contains": {
+        "value": "",
+        "description": "Used in attack mode, algo will search this substring.\nIf value is an empty string, all possible lines will be printed"
+    }
+}
