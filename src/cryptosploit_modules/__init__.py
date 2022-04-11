@@ -26,6 +26,9 @@ class Environment:
     def __contains__(self, item):
         return item in self.__vars
 
+    def __iter__(self):
+        return iter(self.__vars.keys())
+
     def get_var(self, name):
         if name in self.__vars:
             return self.__vars[name]
