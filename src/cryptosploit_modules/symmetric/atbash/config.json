@@ -1,0 +1,14 @@
+{
+    "mode": {
+        "value": "encrypt",
+        "description": "Operation mode. May be decrypt/encrypt"
+    },
+    "input": {
+        "value": "",
+        "description": "Initial string"
+    },
+    "alphabet": {
+        "value": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "description": "Initial alphabet"
+    }
+}
