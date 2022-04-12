@@ -23,7 +23,7 @@ class Environment:
     it returns bool (isvalid) and str (error message)
     """
 
-    check_var: Callable[[str, str], (bool, str)] = lambda x, y, z: (True, "")
+    check_var: Callable[[str, str], tuple[bool, str]] = lambda x, y, z: (True, "")
 
     def __init__(self):
         self.__vars = dict()
@@ -51,7 +51,8 @@ class Environment:
                 self.__vars[name].value = val
             else:
                 raise ArgError(error_msg)
-        raise ArgError("No such variable")
+        else:
+            raise ArgError("[! No such variable")
 
     def load_config(self, config_path):
         with open(config_path) as f:
