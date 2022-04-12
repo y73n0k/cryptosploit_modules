@@ -1,0 +1,30 @@
+{
+    "default_cracker":{
+        "value": "hashcat",
+        "description": "Default programm to crack hashes (hashcat/john)"
+    },
+    "mode": {
+        "value": "help",
+        "description": "Operation mode. May be crack/help"
+    },
+    "input_hash": {
+        "value": "",
+        "description": "Your hash"
+    },
+    "input_file": {
+        "value": "",
+        "description": "Your path to file with hashes"
+    },
+    "hash_type": {
+        "value": "",
+        "description": "Type of your hash for you programm.\nFor example '22000' (like in hashcat)"
+    },
+    "extra_flags": {
+        "value": "",
+        "description": "You can add your own.\nFor example '--save-memory=1 --fork=100'"
+    },
+    "path_to_binary": {
+        "value": "",
+        "description": "You can specify the path to your programm.\nFor example '/usr/bin/hashcat'"
+    }
+}
