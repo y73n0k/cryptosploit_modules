@@ -1,9 +1,10 @@
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
+from json import load
 from os.path import dirname, join, exists
 from sys import modules
 from tabulate import tabulate
-from json import load
+from typing import Callable
 
 from cryptosploit.exceptions import ModuleError, ArgError
 
@@ -15,6 +16,15 @@ class Variable:
 
 
 class Environment:
+    """
+    Class for working with module variables.
+
+    check_var should be overridden in the child class
+    it returns bool (isvalid) and str (error message)
+    """
+
+    check_var: Callable[[str, str], (bool, str)]
+
     def __init__(self):
         self.__vars = dict()
 
@@ -36,9 +46,12 @@ class Environment:
 
     def set_var(self, name, val):
         if name in self.__vars:
-            self.__vars[name].value = val
-        else:
-            raise ArgError("No such variable")
+            isvalid, error_msg = self.check_var(name, val)
+            if isvalid:
+                self.__vars[name].value = val
+            else:
+                raise ArgError(error_msg)
+        raise ArgError("No such variable")
 
     def load_config(self, config_path):
         with open(config_path) as f:
@@ -51,7 +64,7 @@ class BaseModule(metaclass=ABCMeta):
         self.path = modules[self.__class__.__module__].__file__
         self.env = self.load()
 
-    def load(self):
+    def load(self) -> Environment:
         directory = dirname(self.path)
         config_path = join(directory, "config.json")
         if exists(config_path):

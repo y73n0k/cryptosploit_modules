@@ -2,8 +2,10 @@ from cryptosploit_modules import BaseModule
 from cryptosploit.exceptions import ModuleError, ArgError
 from subprocess import Popen, PIPE
 
-class HashCracker(BaseModule):
+
+class Cracker(BaseModule):
     allowed_crackers = ("hashcat", "john")
+
     @staticmethod
     def command_exec(command):
         proc = Popen(command, stderr=PIPE, shell=True, stdin=PIPE, stdout=PIPE, universal_newlines=True, text=True)
@@ -12,41 +14,36 @@ class HashCracker(BaseModule):
         proc.stdout.close()
         for line in iter(proc.stderr.readline, ""):
             print(line, "\n")
-            proc.stderr.close()
-    
-    
+        proc.stderr.close()
+
     def check_path(self):
         cracker = self.env.get_var("default_cracker").value
-        if cracker in HashCracker.allowed_crackers:
+        if cracker in Cracker.allowed_crackers:
             return True
         path = self.env.get_var("path_to_binary").value
-        return any(i in path for i in HashCracker.allowed_crackers)
-
+        return any(i in path for i in Cracker.allowed_crackers)
 
     def is_setted(*args):
         return all(i != "" for i in args)
-    
 
     def help_command(self):
-        return self.command_exec(self.env.get_var("path_to_binary").value or 
-                                self.env.get_var("default_cracker").value)
-
+        return self.command_exec((self.env.get_var("path_to_binary").value or
+                                  self.env.get_var("default_cracker").value) + " --help")
 
     def crack_command(self):
         hash_type = self.env.get_var("hash_type").value
         input_hash = self.env.get_var("input_hash").value
         input_file = self.env.get_var("input_file").value
-        
-        if hash_type and any(input_hash, input_file):
+
+        if hash_type and any((input_hash, input_file)):
             mode = self.env.get_var("mode").value
             path = self.env.get_var("path_to_binary").value
-            if mode == "hashcat" or HashCracker.allowed_crackers[0] in path:
+            if mode == "hashcat" or Cracker.allowed_crackers[0] in path:
                 # Hashcat
                 ...
             else:
                 # John the ripper
                 ...
-
 
     def run(self):
         try:
@@ -59,4 +56,5 @@ class HashCracker(BaseModule):
         except AttributeError:
             raise ModuleError("No such mode!")
 
-module = HashCracker()
+
+module = Cracker()
