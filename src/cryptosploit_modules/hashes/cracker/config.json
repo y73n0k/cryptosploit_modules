@@ -1,30 +1,30 @@
 {
     "default_cracker":{
         "value": "hashcat",
-        "description": "Default programm to crack hashes (hashcat/john)"
+        "description": "Default program to crack hashes (hashcat/john)."
     },
     "mode": {
         "value": "help",
-        "description": "Operation mode. May be crack/help"
+        "description": "Operation mode. May be crack/help/advanced.\nJust type run.\nAdvanced users can pass all the arguments in extra_flags"
     },
-    "input_hash": {
+    "hash_file": {
         "value": "",
-        "description": "Your hash"
+        "description": "Path to file with hash."
     },
-    "input_file": {
+    "wordlist": {
         "value": "",
-        "description": "Your path to file with hashes"
+        "description": "Path to wordlist.\nFor example '/usr/share/wordlists/rockyou.txt'"
     },
-    "hash_type": {
+    "hash_mode": {
         "value": "",
-        "description": "Type of your hash for you programm.\nFor example '22000' (like in hashcat)"
+        "description": "Mode of your hash for you program.\nFor example '22000' (like in hashcat)"
     },
     "extra_flags": {
         "value": "",
-        "description": "You can add your own.\nFor example '--save-memory=1 --fork=100'"
+        "description": "Add your own flags.\nFor example '--save-memory=1 --fork=10'"
     },
     "path_to_binary": {
         "value": "",
-        "description": "You can specify the path to your programm.\nFor example '/usr/bin/hashcat'"
+        "description": "Specify the path to your program.\nFor example '/usr/bin/hashcat'\nMust contain hashcat/john"
     }
 }
