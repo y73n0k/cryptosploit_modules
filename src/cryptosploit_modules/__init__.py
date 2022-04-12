@@ -23,7 +23,7 @@ class Environment:
     it returns bool (isvalid) and str (error message)
     """
 
-    check_var: Callable[[str, str], (bool, str)]
+    check_var: Callable[[str, str], (bool, str)] = lambda x, y, z: (True, "")
 
     def __init__(self):
         self.__vars = dict()
@@ -44,7 +44,7 @@ class Environment:
             return self.__vars[name]
         raise ArgError("No such variable")
 
-    def set_var(self, name, val):
+    def set_var(self, name: str, val: str):
         if name in self.__vars:
             isvalid, error_msg = self.check_var(name, val)
             if isvalid:
