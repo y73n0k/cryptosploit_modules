@@ -17,11 +17,7 @@ class Atbash(BaseModule):
         return result
 
     def decrypt(self):
-        alphabet = self.env.get_var("alphabet").value
-        self.env.set_var("alphabet", alphabet[::-1])
-        result = self.encrypt()
-        self.env.set_var("alphabet", alphabet)
-        return result
+        return self.encrypt()
 
     def run(self):
         try:
