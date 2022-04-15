@@ -1,7 +1,6 @@
 from cryptosploit_modules import BaseModule
 from cryptosploit.exceptions import ModuleError, ArgError
 from os import path
-from subprocess import Popen, PIPE
 
 from .hash_identifier import identify_hash, prettify_hash_info
 
@@ -16,24 +15,13 @@ class Cracker(BaseModule):
         self.hash_types: dict | None = None
 
     @staticmethod
-    def command_exec(command):
-        print(f"[*] Executing '{command}'")
-        proc = Popen(command, stderr=PIPE, shell=True, stdin=PIPE, stdout=PIPE, universal_newlines=True, text=True)
-        for line in iter(proc.stdout.readline, ""):
-            print(line, end="")
-        proc.stdout.close()
-        for line in iter(proc.stderr.readline, ""):
-            print(line, "\n")
-        proc.stderr.close()
-
-    @staticmethod
     def check_var(name, value):
         def check_file(filename):
             try:
                 open(filename).close()
                 return True, ""
             except (FileNotFoundError, IsADirectoryError, OSError) as err:
-                return False, err.strerror
+                return False, "[!] " + err.strerror
         match name:
 
             case "default_cracker":
@@ -87,12 +75,10 @@ class Cracker(BaseModule):
                 if self.last_hash_file != hash_file:
                     self.last_hash_file = hash_file
                     self.hash_types = identify_hash(hash_file)
+                print(*prettify_hash_info(self.hash_types))
                 key = next(iter(self.hash_types))
                 hash_mode = self.hash_types[key][0]["hashcat"] if "hashcat" in command \
                     else self.hash_types[key][0]["john"]
-
-                print(self.hash_types)
-
                 del self.hash_types[key][0]
             if hash_mode != "":
                 if "hashcat" in command:

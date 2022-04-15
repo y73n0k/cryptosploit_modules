@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
 from json import load
 from os.path import dirname, join, exists
+from subprocess import Popen, PIPE
 from sys import modules
 from tabulate import tabulate
 from typing import Callable
@@ -50,8 +51,10 @@ class Environment:
         raise ArgError("No such variable")
 
     def set_var(self, name: str, val: str):
+        isvalid = True
         if name in self.__vars:
-            isvalid, error_msg = self.check_var(name, val)
+            if val:
+                isvalid, error_msg = self.check_var(name, val)
             if isvalid:
                 self.__vars[name].value = val
             else:
@@ -69,6 +72,17 @@ class BaseModule(metaclass=ABCMeta):
     def __init__(self):
         self.path = modules[self.__class__.__module__].__file__
         self.env = self.load()
+
+    @staticmethod
+    def command_exec(command):
+        print(f"[*] Executing '{command}'")
+        proc = Popen(command, stderr=PIPE, shell=True, stdin=PIPE, stdout=PIPE, universal_newlines=True, text=True)
+        for line in iter(proc.stdout.readline, ""):
+            print(line, end="")
+        proc.stdout.close()
+        for line in iter(proc.stderr.readline, ""):
+            print(line, "\n")
+        proc.stderr.close()
 
     def load(self) -> Environment:
         directory = dirname(self.path)
