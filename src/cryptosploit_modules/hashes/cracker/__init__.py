@@ -78,7 +78,6 @@ class Cracker(BaseModule):
         wordlist = self.env.get_var("wordlist").value
         extra_flags = self.env.get_var("extra_flags").value.strip()
         identify_mode = self.env.get_var("identify_hash_type").value
-        print([hash_mode])
 
         if hash_file and wordlist:
             command = self.command_generator()
@@ -91,18 +90,21 @@ class Cracker(BaseModule):
                 key = next(iter(self.hash_types))
                 hash_mode = self.hash_types[key][0]["hashcat"] if "hashcat" in command \
                     else self.hash_types[key][0]["john"]
+
+                print(self.hash_types)
+
                 del self.hash_types[key][0]
             if hash_mode != "":
                 if "hashcat" in command:
                     command += f" -a 0 -m {hash_mode} {hash_file} {wordlist}"
                 else:
                     command += f" --format={hash_mode} --wordlist={wordlist} {hash_file}"
-                return self.command_exec(command + extra_flags)
+                return self.command_exec(command + " " + extra_flags)
 
         raise ArgError("[!] Not enough variables to crack.")
 
     def advanced_command(self):
-        flags = self.env.get_var("extra_flags").value.strip()
+        flags = " " + self.env.get_var("extra_flags").value.strip()
         if flags:
             return self.command_exec(self.command_generator() + flags)
         else:

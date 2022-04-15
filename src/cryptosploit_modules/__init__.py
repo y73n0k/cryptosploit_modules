@@ -15,15 +15,20 @@ class Variable:
     description: str = ""
 
 
+def check_var(name: str, value: str):
+    isvalid_var: bool = True
+    error_message: str = ""
+    return isvalid_var, error_message
+
+
 class Environment:
     """
     Class for working with module variables.
 
     check_var should be overridden in the child class
-    it returns bool (isvalid) and str (error message)
     """
 
-    check_var: Callable[[str, str], tuple[bool, str]] = lambda x, y, z: (True, "")
+    check_var: Callable[[str, str], tuple[bool, str]] = check_var
 
     def __init__(self):
         self.__vars = dict()
