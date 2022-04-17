@@ -1,1 +1,38 @@
-{}
+{
+    "attack":{
+        "value": "",
+        "description": "Specify the attack modes. (Run module with extra_flag -h to see them)"
+    },
+    "publickey":{
+        "value": "",
+        "description": "Public rsa key to crack. You can import multiple public keys with wildcards."
+    },
+    "uncipher":{
+        "value": "",
+        "description": "Uncipher a cipher, using commas to separate multiple ciphers"
+    },
+    "uncipherfile":{
+        "value": "",
+        "description": "Uncipher a file, using commas to separate multiple paths."
+    },
+    "n":{
+        "value": "",
+        "description": "Specify the modulus. format : int or 0xhex."
+    },
+    "p":{
+        "value": "",
+        "description": "Specify the first prime number. format : int or 0xhex"
+    },
+    "q":{
+        "value": "",
+        "description": "Specify the second prime number. format : int or 0xhex"
+    },
+    "e":{
+        "value": "",
+        "description": "Specify the public exponent, using commas to separate multiple exponents. format : int or 0xhex"
+    },
+    "extra_flags": {
+        "value": "",
+        "description": "Add your own flags.\nFor example, '--sendtofdb --check_publickey'"
+    }
+}
