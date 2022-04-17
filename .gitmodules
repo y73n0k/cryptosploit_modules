@@ -1,0 +1,3 @@
+[submodule "src/cryptosploit_modules/asymmetric/rsa/rsactftool/RsaCtfTool"]
+	path = src/cryptosploit_modules/asymmetric/rsa/rsactftool/RsaCtfTool
+	url = git@github.com:y73n0k/RsaCtfTool.git
