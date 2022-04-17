@@ -1,0 +1,34 @@
+{
+    "default_cracker":{
+        "value": "hashcat",
+        "description": "Default program to crack hashes (hashcat/john)."
+    },
+    "mode": {
+        "value": "help",
+        "description": "Operation mode. May be crack/help/advanced.\nJust type run. Advanced users can\npass all the arguments in extra_flags"
+    },
+    "hash_file": {
+        "value": "",
+        "description": "Path to file with hash."
+    },
+    "wordlist": {
+        "value": "",
+        "description": "Path to wordlist.\nFor example, '/usr/share/wordlists/rockyou.txt'"
+    },
+    "identify_hash_type": {
+        "value": "true",
+        "description": "We will try to identify hash type\nand pass most possible type in hash_mode\nuse 'run' again to try next possible type"
+    },
+    "hash_mode": {
+        "value": "",
+        "description": "Mode of your hash for you program.\nFor example, '0' (like in hashcat)"
+    },
+    "extra_flags": {
+        "value": "",
+        "description": "Add your own flags.\nFor example, '--save-memory=1 --fork=10'"
+    },
+    "path_to_binary": {
+        "value": "",
+        "description": "Specify the path to your program.\nFor example, '/usr/bin/hashcat'\nMust contain hashcat/john"
+    }
+}
