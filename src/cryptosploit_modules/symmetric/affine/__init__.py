@@ -19,7 +19,13 @@ class Affine(BaseModule):
                 if value not in ("decrypt", "encrypt", "attack"):
                     return False, "No such mode!"
             case "alphabet", "key":
-                if gcd(len(self.env.get_var("alphabet").value), int(self.env.get_var("key").value)) != 1:
+                if (
+                    gcd(
+                        len(self.env.get_var("alphabet").value),
+                        int(self.env.get_var("key").value),
+                    )
+                    != 1
+                ):
                     return False, "Key must be coprime with alphabet length"
         return True, ""
 
@@ -34,7 +40,9 @@ class Affine(BaseModule):
                 inp = f.read()
         for ind, char in enumerate(inp.upper()):
             if char in alphabet:
-                res_char = alphabet[(key * alphabet.find(char) + offset) % len(alphabet)]
+                res_char = alphabet[
+                    (key * alphabet.find(char) + offset) % len(alphabet)
+                ]
                 result += res_char if inp[ind].isupper() else res_char.lower()
             else:
                 result += char
@@ -52,7 +60,9 @@ class Affine(BaseModule):
                 inp = f.read()
         for ind, char in enumerate(inp.upper()):
             if char in alphabet:
-                res_char = alphabet[(key * (alphabet.find(char) - offset)) % len(alphabet)]
+                res_char = alphabet[
+                    (key * (alphabet.find(char) - offset)) % len(alphabet)
+                ]
                 result += res_char if inp[ind].isupper() else res_char.lower()
             else:
                 result += char

@@ -30,8 +30,12 @@ class Rot(BaseModule):
         results = []
         pattern = compile(self.env.get_var("contains").value or ".*")
         alphabet = self.env.get_var("alphabet").value.upper()
-        for alphabet in [alphabet, string.ascii_uppercase, string.ascii_uppercase+string.digits,
-                         string.ascii_uppercase+string.digits+string.punctuation]:
+        for alphabet in [
+            alphabet,
+            string.ascii_uppercase,
+            string.ascii_uppercase + string.digits,
+            string.ascii_uppercase + string.digits + string.punctuation,
+        ]:
             for key in range(len(alphabet)):
                 self.env.set_var("key", str(key))
                 if pattern.match(r := self.decrypt()):

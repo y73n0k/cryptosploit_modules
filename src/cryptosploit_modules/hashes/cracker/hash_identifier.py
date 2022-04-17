@@ -12,7 +12,10 @@ def prettify_hash_info(hash_info):
     res = []
     headers = ["Name", "Hashcat", "John", "Extended", "Description"]
     for key in hash_info.keys():
-        items = [[i[k] if i[k] is not None else "-" for k in i.keys()] for i in hash_info[key]]
+        items = [
+            [i[k] if i[k] is not None else "-" for k in i.keys()]
+            for i in hash_info[key]
+        ]
         table = f"Input hash: {key}, possible types:\n"
         table += tabulate(items, headers, tablefmt="fancy_grid")
         res.append(table)

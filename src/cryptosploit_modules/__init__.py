@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
 from json import load
-from os.path import dirname, join, exists
+from os.path import dirname, join, exists, isfile
 from subprocess import Popen, PIPE
 from sys import modules
 from tabulate import tabulate
@@ -36,7 +36,9 @@ class Environment:
 
     def __str__(self):
         headers = ["Name", "Value", "Description"]
-        items = [[name, var.value, var.description] for name, var in self.__vars.items()]
+        items = [
+            [name, var.value, var.description] for name, var in self.__vars.items()
+        ]
         return tabulate(items, headers, tablefmt="fancy_grid")
 
     def __contains__(self, item):
@@ -74,9 +76,21 @@ class BaseModule(metaclass=ABCMeta):
         self.env = self.load()
 
     @staticmethod
+    def check_file(filename):
+        return isfile(filename)
+
+    @staticmethod
     def command_exec(command):
         print(f"[*] Executing '{command}'")
-        proc = Popen(command, stderr=PIPE, shell=True, stdin=PIPE, stdout=PIPE, universal_newlines=True, text=True)
+        proc = Popen(
+            command,
+            stderr=PIPE,
+            shell=True,
+            stdin=PIPE,
+            stdout=PIPE,
+            universal_newlines=True,
+            text=True,
+        )
         for line in iter(proc.stdout.readline, ""):
             print(line, end="")
         proc.stdout.close()

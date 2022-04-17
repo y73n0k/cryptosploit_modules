@@ -16,21 +16,14 @@ class Cracker(BaseModule):
 
     @staticmethod
     def check_var(name, value):
-        def check_file(filename):
-            try:
-                open(filename).close()
-                return True, ""
-            except (FileNotFoundError, IsADirectoryError, OSError) as err:
-                return False, "[!] " + err.strerror
         match name:
-
             case "default_cracker":
                 if value in Cracker.allowed_crackers:
                     return True, ""
                 return False, f"[!] Possible values: hashcat/john"
 
             case "hash_file" | "wordlist":
-                return check_file(value)
+                return BaseModule.check_file(value)
 
             case "mode":
                 for i in ("crack", "help", "advanced"):
