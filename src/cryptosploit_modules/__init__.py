@@ -77,7 +77,9 @@ class BaseModule(metaclass=ABCMeta):
 
     @staticmethod
     def check_file(filename):
-        return isfile(filename)
+        if isfile(filename):
+            return True, ""
+        return False, "[!] Not a file"
 
     @staticmethod
     def command_exec(command):
