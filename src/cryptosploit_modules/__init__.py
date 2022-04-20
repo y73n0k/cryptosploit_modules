@@ -9,6 +9,7 @@ from typing import Callable
 
 from cryptosploit.exceptions import ModuleError, ArgError
 
+# TODO: add Pprint class with colorful output
 
 @dataclass()
 class Variable:
