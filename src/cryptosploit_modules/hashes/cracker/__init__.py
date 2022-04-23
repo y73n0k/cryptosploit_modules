@@ -20,7 +20,7 @@ class Cracker(BaseModule):
             case "default_cracker":
                 if value in Cracker.allowed_crackers:
                     return True, ""
-                return False, f"[!] Possible values: hashcat/john"
+                return False, f"Possible values: hashcat/john"
 
             case "hash_file" | "wordlist":
                 return BaseModule.check_file(value)
@@ -29,26 +29,29 @@ class Cracker(BaseModule):
                 for i in ("crack", "help", "advanced"):
                     if value == i:
                         return True, ""
-                return False, f"[!] Possible values: crack/help/advanced"
+                return False, f"Possible values: crack/help/advanced"
 
             case "path_to_binary":
                 if path.exists(value):
                     for i in Cracker.allowed_crackers:
                         if i in value:
                             return True, ""
-                    return False, "[!] Must contain hashcat/john"
-                return False, "[!] No such path!"
+                    return False, "Must contain hashcat/john"
+                return False, "No such path!"
 
             case "identify_hash_type":
                 if value.lower() in ("true", "false"):
                     return True, ""
-                return False, "[!] Possible values: true/false"
+                return False, "Possible values: true/false"
 
             case _:
                 return True, ""
 
     def command_generator(self):
-        return self.env.get_var("path_to_binary").value or self.env.get_var("default_cracker").value
+        return (
+            self.env.get_var("path_to_binary").value
+            or self.env.get_var("default_cracker").value
+        )
 
     def help_command(self):
         return self.command_exec(self.command_generator() + " --help")
@@ -70,32 +73,33 @@ class Cracker(BaseModule):
                     self.hash_types = identify_hash(hash_file)
                 print(*prettify_hash_info(self.hash_types))
                 key = next(iter(self.hash_types))
-                hash_mode = self.hash_types[key][0]["hashcat"] if "hashcat" in command \
+                hash_mode = (
+                    self.hash_types[key][0]["hashcat"]
+                    if "hashcat" in command
                     else self.hash_types[key][0]["john"]
+                )
                 del self.hash_types[key][0]
             if hash_mode != "":
                 if "hashcat" in command:
                     command += f" -a 0 -m {hash_mode} {hash_file} {wordlist}"
                 else:
-                    command += f" --format={hash_mode} --wordlist={wordlist} {hash_file}"
+                    command += (
+                        f" --format={hash_mode} --wordlist={wordlist} {hash_file}"
+                    )
                 return self.command_exec(command + " " + extra_flags)
 
-        raise ArgError("[!] Not enough variables to crack.")
+        raise ArgError("Not enough variables to crack.")
 
     def advanced_command(self):
         flags = " " + self.env.get_var("extra_flags").value.strip()
         if flags:
             return self.command_exec(self.command_generator() + flags)
         else:
-            raise ArgError("[!] extra_flags must be set")
+            raise ArgError("Variable 'extra_flags' must be set")
 
     def run(self):
-        try:
-            func = getattr(self, self.env.get_var("mode").value + "_command")
-            return func()
-        except AttributeError as err:
-            print(str(err))
-            raise ModuleError("No such mode!")
+        func = getattr(self, self.env.get_var("mode").value + "_command")
+        return func()
 
 
 module = Cracker()

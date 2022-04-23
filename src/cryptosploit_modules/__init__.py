@@ -7,9 +7,9 @@ from sys import modules
 from tabulate import tabulate
 from typing import Callable
 
+from cryptosploit.cprint import Printer
 from cryptosploit.exceptions import ModuleError, ArgError
 
-# TODO: add Pprint class with colorful output
 
 @dataclass()
 class Variable:
@@ -63,7 +63,7 @@ class Environment:
             else:
                 raise ArgError(error_msg)
         else:
-            raise ArgError("[! No such variable")
+            raise ArgError("No such variable")
 
     def load_config(self, config_path):
         with open(config_path) as f:
@@ -80,11 +80,11 @@ class BaseModule(metaclass=ABCMeta):
     def check_file(filename):
         if isfile(filename):
             return True, ""
-        return False, "[!] Not a file"
+        return False, "Not a file"
 
     @staticmethod
     def command_exec(command):
-        print(f"[*] Executing '{command}'")
+        Printer.exec(f"Executing '{command}'")
         proc = Popen(
             command,
             stderr=PIPE,

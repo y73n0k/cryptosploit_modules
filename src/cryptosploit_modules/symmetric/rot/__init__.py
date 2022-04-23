@@ -2,10 +2,29 @@ import string
 from re import compile
 
 from cryptosploit_modules import BaseModule
+from cryptosploit.cprint import Printer
 from cryptosploit.exceptions import ModuleError, ArgError
 
 
 class Rot(BaseModule):
+    def __init__(self):
+        super().__init__()
+        self.env.check_var = self.check_var
+
+    @staticmethod
+    def check_var(name, value):
+        match name:
+            case "mode":
+                if value in ("attack", "decrypt", "encrypt"):
+                    return True, ""
+                return False, "May be attack/decrypt/encrypt"
+            case "key":
+                if not value.isdigit():
+                    return False, "Key must be a natural number!"
+                return True, ""
+            case _:
+                return True, ""
+
     def encrypt(self):
         result = ""
         key = int(self.env.get_var("key").value)
@@ -43,14 +62,12 @@ class Rot(BaseModule):
         return "\n".join(set(results))
 
     def run(self):
-        if not self.env.get_var("key").value.isdigit():
-            raise ArgError("Key must be a natural number!")
-        try:
-            func = getattr(self, self.env.get_var("mode").value)
-            result = func()
-            print(*("[+] Result:\n", result) if result else "[-] Result:\nNone", sep="")
-        except AttributeError:
-            raise ModuleError("No such mode!")
+        func = getattr(self, self.env.get_var("mode").value)
+        result = func()
+        if result:
+            Printer.positive("Result:\n" + result)
+        else:
+            Printer.negative("Result:\nNone")
 
 
 module = Rot()

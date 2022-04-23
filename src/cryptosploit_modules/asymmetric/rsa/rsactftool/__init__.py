@@ -1,3 +1,4 @@
+from cryptosploit.cprint import Printer
 from cryptosploit.exceptions import ModuleError
 from cryptosploit_modules import BaseModule
 from os.path import join, dirname
@@ -60,11 +61,11 @@ class RsaCtfToolModule(BaseModule):
             case "mode":
                 if value in RsaCtfToolModule.allowed_attack_methods:
                     return True, ""
-                return False, "[!] No such attack mode"
+                return False, "No such attack mode"
             case "publickey":
                 if "*" in value or RsaCtfToolModule.check_file(value):
                     return True, ""
-                return False, "[!] No such file"
+                return False, "No such file"
             case "n" | "p" | "q" | "e":
                 try:
                     int(value)
@@ -73,9 +74,9 @@ class RsaCtfToolModule(BaseModule):
                         if value.startswith("0x"):
                             int(value, 16)
                         else:
-                            return False, "[!] Value must be int or 0xhex"
+                            return False, "Value must be int or 0xhex"
                     except ValueError:
-                        return False, "[!] Value must be int or 0xhex"
+                        return False, "Value must be int or 0xhex"
                 return True, ""
             case _:
                 return True, ""
@@ -87,14 +88,16 @@ class RsaCtfToolModule(BaseModule):
         try:
             require(pkgs)
         except DistributionNotFound:
-            print("[+] Install requirements for RsaCtfTool")
+            Printer.positive("Install requirements for RsaCtfTool")
             self.command_exec(f"pip install -r {reqs_path}")
             self.command_exec(
                 f"pip install -r {join(self.tool_path, 'optional-requirements.txt')}"
             )
         except VersionConflict:
-            print("[!] Cannot install requirements for RsaCtfTool because of conflict")
-            print("[!] We recommend you to install cryptosploit in venv")
+            Printer.negative(
+                "Cannot install requirements for RsaCtfTool because of conflict"
+            )
+            Printer.info("We recommend you to install cryptosploit in venv")
 
     def run(self):
         self.check_reqs()

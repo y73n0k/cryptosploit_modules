@@ -36,7 +36,10 @@ class Atbash(BaseModule):
     def run(self):
         func = getattr(self, self.env.get_var("mode").value)
         result = func()
-        print(*("[+] Result:\n", result) if result else "[-] Result:\nNone", sep="")
+        if result:
+            Printer.positive("Result:\n" + result)
+        else:
+            Printer.negative("Result:\nNone")
 
 
 module = Atbash()
