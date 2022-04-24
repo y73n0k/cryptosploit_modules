@@ -7,7 +7,7 @@ from sys import modules
 from tabulate import tabulate
 from typing import Callable
 
-from cryptosploit.cprint import Printer
+from cryptosploit.cprint import Printer, colorize_strings, SGR
 from cryptosploit.exceptions import ModuleError, ArgError
 
 
@@ -36,9 +36,17 @@ class Environment:
         self.__vars = dict()
 
     def __str__(self):
-        headers = ["Name", "Value", "Description"]
+        headers = [
+            colorize_strings("Name", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),
+            colorize_strings("Value", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),
+            colorize_strings("Description", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),            
+        ]
         items = [
-            [name, var.value, var.description] for name, var in self.__vars.items()
+            [
+                colorize_strings(name, fg=SGR.COLOR.FOREGROUND.YELLOW), 
+                colorize_strings(var.value if len(var.value) <= 30 else var.value[:30] + "...", fg=SGR.COLOR.FOREGROUND.YELLOW),
+                colorize_strings(var.description, fg=SGR.COLOR.FOREGROUND.YELLOW)
+            ] for name, var in self.__vars.items()
         ]
         return tabulate(items, headers, tablefmt="fancy_grid")
 
