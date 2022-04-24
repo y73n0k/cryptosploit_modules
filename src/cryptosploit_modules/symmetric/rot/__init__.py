@@ -3,7 +3,6 @@ from re import compile
 
 from cryptosploit_modules import BaseModule
 from cryptosploit.cprint import Printer
-from cryptosploit.exceptions import ModuleError, ArgError
 
 
 class Rot(BaseModule):
@@ -19,8 +18,12 @@ class Rot(BaseModule):
                     return True, ""
                 return False, "May be attack/decrypt/encrypt"
             case "key":
-                if not value.isdigit():
-                    return False, "Key must be a natural number!"
+                if not value.startswith("-"):
+                    if not value.isdigit():
+                        return False, "Key must be a natural number!"
+                else:
+                    if not value[1:].isdigit():
+                        return False, "Key must be a natural number!"
                 return True, ""
             case _:
                 return True, ""

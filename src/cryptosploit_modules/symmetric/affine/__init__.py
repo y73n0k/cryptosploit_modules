@@ -2,6 +2,7 @@ from math import gcd
 from os.path import isfile
 from re import compile
 
+from cryptosploit.cprint import Printer
 from cryptosploit_modules import BaseModule
 
 
@@ -12,21 +13,32 @@ class Affine(BaseModule):
 
     def check_var(self, name, value):
         match name:
-            case "key", "offset":
+            case "key":
+                if not value.isdigit():
+                    return False, "Value must be a natural number!"
+                if (
+                    gcd(
+                        len(self.env.get_var("alphabet").value),
+                        int(value),
+                    )
+                    != 1
+                ):
+                    return False, "Key must be coprime with alphabet length"
+            case "offset":
                 if not value.isdigit():
                     return False, "Value must be a natural number!"
             case "mode":
                 if value not in ("decrypt", "encrypt", "attack"):
                     return False, "No such mode!"
-            case "alphabet", "key":
+            case "alphabet":
                 if (
                     gcd(
-                        len(self.env.get_var("alphabet").value),
+                        len(value),
                         int(self.env.get_var("key").value),
                     )
                     != 1
                 ):
-                    return False, "Key must be coprime with alphabet length"
+                    return False, "Alphabet length must be coprime with key"
         return True, ""
 
     def encrypt(self):
@@ -76,13 +88,19 @@ class Affine(BaseModule):
                 contains = f.read()
         pattern = compile(contains or ".*")
         alphabet = self.env.get_var("alphabet").value.upper()
-        for key in range(len(alphabet)):
+        prev_key, prev_offset = (
+            self.env.get_var("key").value,
+            self.env.get_var("offset").value,
+        )
+        for key in range(1, len(alphabet)):
             if gcd(key, len(alphabet)) == 1:
                 self.env.set_var("key", str(key))
                 for offset in range(len(alphabet)):
                     self.env.set_var("offset", str(offset))
                     if pattern.match(r := self.decrypt()):
                         results.append(r)
+        self.env.set_var("key", prev_key)
+        self.env.set_var("offset", prev_offset)
         return "\n".join(set(results))
 
     def run(self):

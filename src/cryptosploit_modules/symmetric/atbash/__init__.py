@@ -1,3 +1,4 @@
+from cryptosploit.cprint import Printer
 from cryptosploit_modules import BaseModule
 from os.path import isfile
 
