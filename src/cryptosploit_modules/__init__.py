@@ -17,33 +17,30 @@ class Variable:
     description: str = ""
 
 
-def check_var(name: str, value: str):
+def check_var(name: str, value: str) -> tuple[bool, str]:
     isvalid_var: bool = True
     error_message: str = ""
     return isvalid_var, error_message
 
 
 class Environment:
-    """
-    Class for working with module variables.
-
-    check_var should be overridden in the child class
-    """
+    """Class for working with module variables."""
 
     check_var: Callable[[str, str], tuple[bool, str]] = check_var
 
-    def __init__(self):
+    def __init__(self, config_path):
         self.__vars = dict()
+        self.__load_config(config_path)
 
     def __str__(self):
         headers = [
             colorize_strings("Name", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),
             colorize_strings("Value", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),
-            colorize_strings("Description", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),            
+            colorize_strings("Description", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),
         ]
         items = [
             [
-                colorize_strings(name, fg=SGR.COLOR.FOREGROUND.YELLOW), 
+                colorize_strings(name, fg=SGR.COLOR.FOREGROUND.YELLOW),
                 colorize_strings(var.value if len(var.value) <= 30 else var.value[:30] + "...", fg=SGR.COLOR.FOREGROUND.YELLOW),
                 colorize_strings(var.description, fg=SGR.COLOR.FOREGROUND.YELLOW)
             ] for name, var in self.__vars.items()
@@ -56,24 +53,24 @@ class Environment:
     def __iter__(self):
         return iter(self.__vars.keys())
 
-    def get_var(self, name):
+    def get_var(self, name) -> Variable:
+        """Getting a module-defined variable"""
         if name in self.__vars:
             return self.__vars[name]
         raise ArgError("No such variable")
 
-    def set_var(self, name: str, val: str):
-        isvalid = True
+    def set_var(self, name: str, value: str) -> None:
+        """Setting a module-defined variable"""
         if name in self.__vars:
-            if val:
-                isvalid, error_msg = self.check_var(name, val)
+            isvalid, error_msg = self.check_var(name, value)
             if isvalid:
-                self.__vars[name].value = val
+                self.__vars[name].value = value
             else:
                 raise ArgError(error_msg)
         else:
             raise ArgError("No such variable")
 
-    def load_config(self, config_path):
+    def __load_config(self, config_path):
         with open(config_path) as f:
             for name, params in load(f).items():
                 self.__vars[name] = Variable(**params)
@@ -82,16 +79,18 @@ class Environment:
 class BaseModule(metaclass=ABCMeta):
     def __init__(self):
         self.path = modules[self.__class__.__module__].__file__
-        self.env = self.load()
+        self.env = self.__load()
 
     @staticmethod
-    def check_file(filename):
+    def check_file(filename) -> tuple[bool, str]:
+        """Check existence of file"""
         if isfile(filename):
             return True, ""
         return False, "Not a file"
 
     @staticmethod
-    def command_exec(command):
+    def command_exec(command) -> None:
+        """Print output of executed shell command to console"""
         Printer.exec(f"Executing '{command}'")
         proc = Popen(
             command,
@@ -109,17 +108,18 @@ class BaseModule(metaclass=ABCMeta):
             print(line, "\n")
         proc.stderr.close()
 
-    def load(self) -> Environment:
+    def __load(self) -> Environment:
+        """Load config with module variables"""
         directory = dirname(self.path)
         config_path = join(directory, "config.json")
         if exists(config_path):
-            env = Environment()
-            env.load_config(config_path)
+            env = Environment(config_path)
             return env
         raise ModuleError(f"No such file: {config_path}")
 
     @abstractmethod
-    def run(self):
+    def run(self) -> None:
         """
-        Required to be overridden in the child class
+        Required to be overridden in the child class.
+        Function called by the user
         """
