@@ -10,7 +10,7 @@
 At the end of the ```__init.py__``` file you must create class instance with name 'module'.
 
 ### Module directory Structure
-Also, ou can add any files you need.
+Also, you can add any files you need.
 
 ```
 .
