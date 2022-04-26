@@ -1,0 +1,18 @@
+{
+    "mode": {
+        "value": "attack",
+        "description": "Operation mode. May be attack/decrypt/encrypt"
+    },
+    "key": {
+        "value": "13",
+        "description": "Value of key"
+    },
+    "input": {
+        "value": "",
+        "description": "String to be processed"
+    },
+    "contains": {
+        "value": "",
+        "description": "Used in attack mode, algo will search this substring.\nIf value is an empty string, all possible lines will be printed"
+    }
+}
