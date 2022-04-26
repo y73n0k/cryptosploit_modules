@@ -1,8 +1,5 @@
-from cryptosploit.cprint import Printer
-from cryptosploit.exceptions import ModuleError
 from cryptosploit_modules import BaseModule
 from os.path import join, dirname
-from pkg_resources import require, DistributionNotFound, VersionConflict
 
 
 class RsaCtfToolModule(BaseModule):
@@ -81,26 +78,7 @@ class RsaCtfToolModule(BaseModule):
             case _:
                 return True, ""
 
-    def check_reqs(self):
-        reqs_path = join(self.tool_path, "requirements.txt")
-        with open(reqs_path) as f:
-            pkgs = f.read()
-        try:
-            require(pkgs)
-        except DistributionNotFound:
-            Printer.positive("Install requirements for RsaCtfTool")
-            self.command_exec(f"pip install -r {reqs_path}")
-            self.command_exec(
-                f"pip install -r {join(self.tool_path, 'optional-requirements.txt')}"
-            )
-        except VersionConflict:
-            Printer.negative(
-                "Cannot install requirements for RsaCtfTool because of conflict"
-            )
-            Printer.info("We recommend you to install cryptosploit in venv")
-
     def run(self):
-        self.check_reqs()
         flags = set(iter(self.env)) - {"extra_flags"}
         flags = filter(
             lambda x: x[1], zip(flags, map(lambda x: self.env.get_var(x).value, flags))

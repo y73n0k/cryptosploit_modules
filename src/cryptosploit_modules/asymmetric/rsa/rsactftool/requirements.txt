@@ -1,0 +1,15 @@
+six
+sympy
+cryptography
+urllib3
+requests
+gmpy
+gmpy2
+pycryptodome
+tqdm
+z3-solver
+pycrypto
+bitarray
+egcd
+wolframalpha
+SageMath
