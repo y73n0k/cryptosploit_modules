@@ -1,5 +1,6 @@
 from cryptosploit_modules import BaseModule
 from os.path import join, dirname
+from sys import path
 
 
 class RsaCtfToolModule(BaseModule):
@@ -88,7 +89,10 @@ class RsaCtfToolModule(BaseModule):
         )
         if extra_flags := self.env.get_var("extra_flags").value:
             flags = " ".join([flags, extra_flags])
-        self.command_exec(f'python {join(self.tool_path, "RsaCtfTool.py")} {flags}')
+        self.command_exec(
+            f'python {join(self.tool_path, "RsaCtfTool.py")} {flags}',
+            {"PYTHONPATH": ":".join(path)},
+        )
 
 
 module = RsaCtfToolModule()

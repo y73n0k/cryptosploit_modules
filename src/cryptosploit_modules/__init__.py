@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
 from json import load
+from os import environ
 from os.path import dirname, join, exists, isfile
 from subprocess import Popen, PIPE
 from sys import modules
@@ -89,7 +90,7 @@ class BaseModule(metaclass=ABCMeta):
         return False, "Not a file"
 
     @staticmethod
-    def command_exec(command) -> None:
+    def command_exec(command, env=dict()) -> None:
         """Print output of executed shell command to console"""
         Printer.exec(f"Executing '{command}'")
         proc = Popen(
@@ -100,6 +101,7 @@ class BaseModule(metaclass=ABCMeta):
             stdout=PIPE,
             universal_newlines=True,
             text=True,
+            env=dict(**environ, **env)
         )
         for line in iter(proc.stdout.readline, ""):
             print(line, end="")
