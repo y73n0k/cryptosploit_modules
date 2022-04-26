@@ -1,7 +1,7 @@
 {
     "default_cracker":{
         "value": "hashcat",
-        "description": "Default program to crack hashes (hashcat/john)."
+        "description": "Default program to crack hashes (hashcat/john). \n You must install one of these tools."
     },
     "mode": {
         "value": "help",

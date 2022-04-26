@@ -1,6 +1,7 @@
 from cryptosploit_modules import BaseModule
 from cryptosploit.exceptions import ModuleError, ArgError
-from os import path
+from os.path import exists
+from sys import path
 
 from .hash_identifier import identify_hash, prettify_hash_info
 
@@ -32,7 +33,7 @@ class Cracker(BaseModule):
                 return False, f"Possible values: crack/help/advanced"
 
             case "path_to_binary":
-                if path.exists(value):
+                if exists(value):
                     for i in Cracker.allowed_crackers:
                         if i in value:
                             return True, ""
@@ -48,13 +49,14 @@ class Cracker(BaseModule):
                 return True, ""
 
     def command_generator(self):
+        """Generate path to binary"""
         return (
             self.env.get_var("path_to_binary").value
             or self.env.get_var("default_cracker").value
         )
 
     def help_command(self):
-        return self.command_exec(self.command_generator() + " --help")
+        return self.command_generator() + " --help"
 
     def crack_command(self):
         hash_mode = self.env.get_var("hash_mode").value
@@ -86,20 +88,24 @@ class Cracker(BaseModule):
                     command += (
                         f" --format={hash_mode} --wordlist={wordlist} {hash_file}"
                     )
-                return self.command_exec(command + " " + extra_flags)
+                return command + " " + extra_flags
 
         raise ArgError("Not enough variables to crack.")
 
     def advanced_command(self):
-        flags = " " + self.env.get_var("extra_flags").value.strip()
+        flags = " " + self.env.get_var("extra_flags").value
         if flags:
-            return self.command_exec(self.command_generator() + flags)
+            return self.command_generator() + flags
         else:
             raise ArgError("Variable 'extra_flags' must be set")
 
     def run(self):
         func = getattr(self, self.env.get_var("mode").value + "_command")
-        return func()
+        command = func()
+        self.command_exec(
+            command,
+            {"PYTHONPATH": ":".join(path)}
+        )
 
 
 module = Cracker()
