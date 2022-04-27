@@ -81,6 +81,7 @@ class BaseModule(metaclass=ABCMeta):
     def __init__(self):
         self.path = modules[self.__class__.__module__].__file__
         self.env = self.__load()
+        self.proc: Popen | None = None
 
     @staticmethod
     def check_file(filename) -> tuple[bool, str]:
@@ -89,11 +90,16 @@ class BaseModule(metaclass=ABCMeta):
             return True, ""
         return False, "Not a file"
 
-    @staticmethod
-    def command_exec(command, env=dict()) -> None:
+    def kill_proc(self):
+        if self.proc:
+            self.proc.terminate()
+            self.proc.kill()
+            self.proc = None
+
+    def command_exec(self, command, env=dict()) -> None:
         """Print output of executed shell command to console"""
         Printer.exec(f"Executing '{command}'")
-        proc = Popen(
+        self.proc = Popen(
             command,
             stderr=PIPE,
             shell=True,
@@ -103,12 +109,12 @@ class BaseModule(metaclass=ABCMeta):
             text=True,
             env=dict(**environ, **env)
         )
-        for line in iter(proc.stdout.readline, ""):
+        for line in iter(self.proc.stdout.readline, ""):
             print(line, end="")
-        proc.stdout.close()
-        for line in iter(proc.stderr.readline, ""):
+        self.proc.stdout.close()
+        for line in iter(self.proc.stderr.readline, ""):
             print(line, "\n")
-        proc.stderr.close()
+        self.proc.stderr.close()
 
     def __load(self) -> Environment:
         """Load config with module variables"""
