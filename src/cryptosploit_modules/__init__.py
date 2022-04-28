@@ -43,7 +43,7 @@ class Environment:
             [
                 colorize_strings(name, fg=SGR.COLOR.FOREGROUND.YELLOW),
                 colorize_strings(var.value if len(var.value) <= 30 else var.value[:30] + "...", fg=SGR.COLOR.FOREGROUND.YELLOW),
-                colorize_strings(var.description, fg=SGR.COLOR.FOREGROUND.YELLOW)
+                colorize_strings(*var.description.split("\n"), fg=SGR.COLOR.FOREGROUND.YELLOW, sep="\n")
             ] for name, var in self.__vars.items()
         ]
         return tabulate(items, headers, tablefmt="fancy_grid")
