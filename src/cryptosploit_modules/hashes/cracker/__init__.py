@@ -68,7 +68,7 @@ class Cracker(BaseModule):
         if hash_file and wordlist:
             command = self.command_generator()
 
-            if identify_mode == "true":
+            if identify_mode.lower() == "true":
 
                 if self.last_hash_file != hash_file:
                     self.last_hash_file = hash_file
