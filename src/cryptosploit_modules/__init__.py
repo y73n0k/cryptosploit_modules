@@ -4,7 +4,7 @@ from json import load
 from os import environ
 from os.path import dirname, join, exists, isfile
 from subprocess import Popen, PIPE
-from sys import modules
+from sys import modules, stdin
 from tabulate import tabulate
 from typing import Callable
 
@@ -102,16 +102,11 @@ class BaseModule(metaclass=ABCMeta):
         self.proc = Popen(
             command,
             stderr=PIPE,
+            stdin=stdin,
             shell=True,
-            stdin=PIPE,
-            stdout=PIPE,
             universal_newlines=True,
-            text=True,
             env=dict(**environ, **env)
         )
-        for line in iter(self.proc.stdout.readline, ""):
-            print(line, end="")
-        self.proc.stdout.close()
         for line in iter(self.proc.stderr.readline, ""):
             print(line, "\n")
         self.proc.stderr.close()
