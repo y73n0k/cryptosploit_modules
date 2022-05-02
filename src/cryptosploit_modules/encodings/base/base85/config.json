@@ -1,0 +1,10 @@
+{
+    "mode": {
+        "value": "decode",
+        "description": "Operation mode. May be decode/encode"
+    },
+    "input": {
+        "value": "",
+        "description": "String to be processed"
+    }
+}
