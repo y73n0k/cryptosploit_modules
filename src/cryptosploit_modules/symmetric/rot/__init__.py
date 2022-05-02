@@ -73,4 +73,4 @@ class Rot(BaseModule):
             Printer.negative("Result:\nNone")
 
 
-module = Rot()
+module = Rot
