@@ -43,4 +43,4 @@ class Atbash(BaseModule):
             Printer.negative("Result:\nNone")
 
 
-module = Atbash()
+module = Atbash

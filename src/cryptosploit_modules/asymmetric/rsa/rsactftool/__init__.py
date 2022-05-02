@@ -95,4 +95,4 @@ class RsaCtfToolModule(BaseModule):
         )
 
 
-module = RsaCtfToolModule()
+module = RsaCtfToolModule
