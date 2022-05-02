@@ -17,6 +17,18 @@ You can write your module in any programming language, use prepared [modules tem
 
 Use  [cryptosploit](https://cryptosploit.re86.ru/docs/cryptosploit.html) and [cryptosploit_modules](https://cryptosploit.re86.ru/docs/modules/cryptosploit_modules.html) **documentation** to get more information about module writing.
 
+### ✨ List of modules
+
+Actual list of modules:
+
+| Type | Name |
+|------|------|
+| asymmetric.rsa | rsactftool |
+|hashes|cracker|
+|symmetric|affine|
+|symmetric|atbash|
+|symmetric|rot|
+
 ### 🙏 Thank you
 
 Thank you for your interest and support! 
