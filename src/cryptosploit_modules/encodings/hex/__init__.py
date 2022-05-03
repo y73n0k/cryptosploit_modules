@@ -1,13 +1,7 @@
-"""
-Template for python modules
-To check full module directory structure (config.json, do_install.sh)
-visit our github: https://github.com/y73n0k/cryptosploit_modules
-"""
-
 from cryptosploit.cprint import Printer
 from cryptosploit_modules import BaseModule
 
-class ExamplePythonModuleName(BaseModule):
+class Hex(BaseModule):
     def __init__(self):
         super().__init__()
         self.env.check_var = self.check_var
@@ -41,4 +35,4 @@ class ExamplePythonModuleName(BaseModule):
         return func()
 
 
-module = ExamplePythonModuleName()
+module = Hex

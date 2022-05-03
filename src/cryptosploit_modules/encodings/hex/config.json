@@ -1,10 +1,14 @@
 {
     "mode": {
-        "value": "decode",
-        "description": "Operation mode. May be decode/encode"
+        "value": "from_hex",
+        "description": "Operation mode. May be to_hex/from_hex"
     },
     "input": {
         "value": "",
-        "description": "String to be processed"
+        "description": "String or path to the file to be processed"
+    },
+    "delimiter": {
+        "value": "",
+        "description": "Delimiter of hex string"
     }
 }

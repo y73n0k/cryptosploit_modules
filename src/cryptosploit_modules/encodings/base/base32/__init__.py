@@ -3,7 +3,7 @@ from binascii import Error
 from cryptosploit.cprint import Printer
 from cryptosploit.exceptions import ArgError
 from cryptosploit_modules import BaseModule
-
+from os.path import isfile
 
 class Base32(BaseModule):
     def __init__(self):
@@ -16,27 +16,38 @@ class Base32(BaseModule):
             case "input":
                 if len(bytes(value, encoding="utf-8")) == len(value):
                     return True, ""
-                return False, "Your string must be a utf-8 string"
+                return False, "Your string must be a utf-8 string or or path to the file to be processed"
             case "mode":
                 if value in ("encode", "decode"):
                     return True, ""
                 return False, "May be decode/encode"
 
-    def encode_command(self, text):
+    def encode_command(self):
+        inp = self.env.get_var("input").value
+        if isfile(inp):
+            with open(inp) as f:
+                inp = f.read()
+        text = bytes(inp, encoding="utf-8")
         Printer.positive("Encoded string:\n" + b32encode(text).decode())
 
-    def decode_command(self, text):
+
+    def decode_command(self):
+        inp = self.env.get_var("input").value
+        if isfile(inp):
+            with open(inp) as f:
+                inp = f.read()
+        text = bytes(inp, encoding="utf-8")
         try:
             Printer.positive("Decoded string:\n" + b32decode(text).decode())
         except Error as err:
-            raise ArgError(str(err))
+            raise ArgError from err
+        
 
     def run(self):
-        text = bytes(self.env.get_var("input").value, encoding="utf-8")
         mode = self.env.get_var("mode").value
-        if text and mode:
+        if mode:
             func = getattr(self, mode + "_command")
-            return func(text)
+            return func()
         else:
             raise ArgError("All variables must be set")
 
