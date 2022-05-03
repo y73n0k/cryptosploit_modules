@@ -35,4 +35,4 @@ class ExampleBinaryModuleName(BaseModule):
         return Printer.error("All paramaters must be set")
 
 
-module = ExampleBinaryModuleName()
+module = ExampleBinaryModuleName
