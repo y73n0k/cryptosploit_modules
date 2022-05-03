@@ -41,4 +41,4 @@ class ExamplePythonModuleName(BaseModule):
         return func()
 
 
-module = ExamplePythonModuleName()
+module = ExamplePythonModuleName
