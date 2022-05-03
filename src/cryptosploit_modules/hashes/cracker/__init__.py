@@ -108,4 +108,4 @@ class Cracker(BaseModule):
         )
 
 
-module = Cracker()
+module = Cracker

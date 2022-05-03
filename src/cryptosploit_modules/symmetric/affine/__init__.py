@@ -112,4 +112,4 @@ class Affine(BaseModule):
             Printer.negative("Result:\nNone")
 
 
-module = Affine()
+module = Affine

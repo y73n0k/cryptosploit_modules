@@ -1,0 +1,22 @@
+{
+    "aes_mode": {
+        "value": "ECB",
+        "description": "Operation mode. May be attack/decrypt/encrypt"
+    },
+    "iv": {
+        "value": "",
+        "description": "Initialization vector"
+    },
+    "key": {
+        "value": "",
+        "description": "The cryptographic key"
+    },
+    "mode": {
+        "value": "decrypt",
+        "description": "decrypt/encrypt"
+    },
+    "plaintext": {
+        "value": "",
+        "description": "Plaintext to encrypt/decrypt"
+    }
+}
