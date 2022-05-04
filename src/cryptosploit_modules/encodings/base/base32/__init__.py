@@ -47,8 +47,7 @@ class Base32(BaseModule):
         if mode:
             func = getattr(self, mode + "_command")
             return func(inp)
-        else:
-            raise ArgError("All variables must be set")
+        raise ArgError("All variables must be set")
 
 
 module = Base32
