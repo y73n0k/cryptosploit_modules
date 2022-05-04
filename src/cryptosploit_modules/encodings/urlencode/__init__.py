@@ -31,7 +31,10 @@ class UrlEncoder(BaseModule):
     def encode_command(self, inp):
         safe_chars = self.env.get_var("safe_chars").value
         try:
-            Printer.positive("Encoded string:\n" + quote(inp, safe=safe_chars or "/:?=", encoding="utf-8"))
+            Printer.positive(
+                "Encoded string:\n"
+                + quote(inp, safe=safe_chars or "/:?=", encoding="utf-8")
+            )
         except UnicodeEncodeError as err:
             raise ArgError("Your string must be a utf-8 string") from err
 
