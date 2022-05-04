@@ -23,7 +23,6 @@ class Base16(BaseModule):
                 return False, "May be decode/encode"
 
     def encode_command(self):
-        inp = self.env.get_var("input").value
         if isfile(inp):
             with open(inp) as f:
                 inp = f.read()
@@ -32,7 +31,6 @@ class Base16(BaseModule):
 
 
     def decode_command(self):
-        inp = self.env.get_var("input").value
         if isfile(inp):
             with open(inp) as f:
                 inp = f.read()
@@ -45,9 +43,10 @@ class Base16(BaseModule):
 
     def run(self):
         mode = self.env.get_var("mode").value
-        if mode:
+        inp = self.env.get_var("input").value
+        if mode and inp:
             func = getattr(self, mode + "_command")
-            return func()
+            return func(inp)
         else:
             raise ArgError("All variables must be set")
 

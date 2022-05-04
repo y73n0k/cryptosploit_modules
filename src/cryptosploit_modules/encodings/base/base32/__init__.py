@@ -22,8 +22,7 @@ class Base32(BaseModule):
                     return True, ""
                 return False, "May be decode/encode"
 
-    def encode_command(self):
-        inp = self.env.get_var("input").value
+    def encode_command(self, inp):
         if isfile(inp):
             with open(inp) as f:
                 inp = f.read()
@@ -31,8 +30,7 @@ class Base32(BaseModule):
         Printer.positive("Encoded string:\n" + b32encode(text).decode())
 
 
-    def decode_command(self):
-        inp = self.env.get_var("input").value
+    def decode_command(self, inp):
         if isfile(inp):
             with open(inp) as f:
                 inp = f.read()
@@ -45,9 +43,10 @@ class Base32(BaseModule):
 
     def run(self):
         mode = self.env.get_var("mode").value
+        inp = self.env.get_var("input").value
         if mode:
             func = getattr(self, mode + "_command")
-            return func()
+            return func(inp)
         else:
             raise ArgError("All variables must be set")
 
