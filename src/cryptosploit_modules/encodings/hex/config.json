@@ -9,6 +9,6 @@
     },
     "delimiter": {
         "value": "",
-        "description": "Delimiter of hex string"
+        "description": "Delimiter of the hex string"
     }
 }
