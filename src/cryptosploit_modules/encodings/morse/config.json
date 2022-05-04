@@ -5,6 +5,6 @@
     },
     "input": {
         "value": "",
-        "description": "String or path to the file to be processed"
+        "description": "String to be processed"
     }
 }
