@@ -42,7 +42,7 @@ class Base32(BaseModule):
         try:
             Printer.positive("Decoded string:\n" + b32decode(text).decode())
         except Error as err:
-            raise ArgError from err
+            raise ArgError("Your input is not valid base32 string") from err
 
     def run(self):
         mode = self.env.get_var("mode").value

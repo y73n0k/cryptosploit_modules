@@ -1,7 +1,7 @@
 from base64 import b64encode, b64decode
+from binascii import Error
 from os.path import isfile
 
-from binascii import Error
 from cryptosploit.cprint import Printer
 from cryptosploit.exceptions import ArgError
 from cryptosploit_modules import BaseModule
@@ -42,7 +42,7 @@ class Base64(BaseModule):
         try:
             Printer.positive("Decoded string:\n" + b64decode(text).decode())
         except Error as err:
-            raise ArgError from err
+            raise ArgError("Your input is not valid base64 string") from err
 
     def run(self):
         mode = self.env.get_var("mode").value
