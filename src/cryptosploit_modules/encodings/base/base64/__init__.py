@@ -1,9 +1,11 @@
 from base64 import b64encode, b64decode
+from os.path import isfile
+
 from binascii import Error
 from cryptosploit.cprint import Printer
 from cryptosploit.exceptions import ArgError
 from cryptosploit_modules import BaseModule
-from os.path import isfile
+
 
 class Base64(BaseModule):
     def __init__(self):
@@ -16,7 +18,10 @@ class Base64(BaseModule):
             case "input":
                 if len(bytes(value, encoding="utf-8")) == len(value):
                     return True, ""
-                return False, "Your string must be a utf-8 string or or path to the file to be processed"
+                return (
+                    False,
+                    "Your string must be a utf-8 string or path to the file to be processed",
+                )
             case "mode":
                 if value in ("encode", "decode"):
                     return True, ""
@@ -29,7 +34,6 @@ class Base64(BaseModule):
         text = bytes(inp, encoding="utf-8")
         Printer.positive("Encoded string:\n" + b64encode(text).decode())
 
-
     def decode_command(self, inp):
         if isfile(inp):
             with open(inp) as f:
@@ -39,7 +43,6 @@ class Base64(BaseModule):
             Printer.positive("Decoded string:\n" + b64decode(text).decode())
         except Error as err:
             raise ArgError from err
-        
 
     def run(self):
         mode = self.env.get_var("mode").value
