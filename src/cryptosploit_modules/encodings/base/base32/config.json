@@ -1,0 +1,10 @@
+{
+    "mode": {
+        "value": "decode",
+        "description": "Operation mode. May be decode/encode"
+    },
+    "input": {
+        "value": "",
+        "description": "String or path to the file to be processed"
+    }
+}

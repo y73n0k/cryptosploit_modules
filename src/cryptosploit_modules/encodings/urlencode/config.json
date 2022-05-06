@@ -1,0 +1,14 @@
+{
+    "mode": {
+        "value": "decode",
+        "description": "Operation mode. May be decode/encode"
+    },
+    "input": {
+        "value": "",
+        "description": "String to be processed"
+    },
+    "safe_chars": {
+        "value": "/:?=",
+        "description": "Characters that will not be encoded"
+    }
+}

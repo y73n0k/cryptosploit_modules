@@ -6,7 +6,6 @@ from os.path import dirname, join, exists, isfile
 from subprocess import Popen, PIPE
 from sys import modules, stdin
 from tabulate import tabulate
-from typing import Callable
 
 from cryptosploit.cprint import Printer, colorize_strings, SGR
 from cryptosploit.exceptions import ModuleError, ArgError
@@ -18,16 +17,8 @@ class Variable:
     description: str = ""
 
 
-def check_var(name: str, value: str) -> tuple[bool, str]:
-    isvalid_var: bool = True
-    error_message: str = ""
-    return isvalid_var, error_message
-
-
 class Environment:
     """Class for working with module variables."""
-
-    check_var: Callable[[str, str], tuple[bool, str]] = check_var
 
     def __init__(self, config_path):
         self.__vars = dict()
@@ -35,16 +26,34 @@ class Environment:
 
     def __str__(self):
         headers = [
-            colorize_strings("Name", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),
-            colorize_strings("Value", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),
-            colorize_strings("Description", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]),
+            colorize_strings(
+                "Name", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]
+            ),
+            colorize_strings(
+                "Value", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]
+            ),
+            colorize_strings(
+                "Description", fg=SGR.COLOR.FOREGROUND.CYAN, styles=[SGR.STYLES.BOLD]
+            ),
         ]
         items = [
             [
                 colorize_strings(name, fg=SGR.COLOR.FOREGROUND.YELLOW),
-                colorize_strings(var.value if len(var.value) <= 30 else var.value[:30] + "...", fg=SGR.COLOR.FOREGROUND.YELLOW),
-                colorize_strings(*var.description.split("\n"), fg=SGR.COLOR.FOREGROUND.YELLOW, sep="\n")
-            ] for name, var in self.__vars.items()
+                colorize_strings(
+                    "' '"
+                    if var.value == " "
+                    else var.value
+                    if len(var.value) <= 30
+                    else var.value[:30] + "...",
+                    fg=SGR.COLOR.FOREGROUND.YELLOW,
+                ),
+                colorize_strings(
+                    *var.description.split("\n"),
+                    fg=SGR.COLOR.FOREGROUND.YELLOW,
+                    sep="\n",
+                ),
+            ]
+            for name, var in self.__vars.items()
         ]
         return tabulate(items, headers, tablefmt="fancy_grid")
 
@@ -53,6 +62,12 @@ class Environment:
 
     def __iter__(self):
         return iter(self.__vars.keys())
+
+    @staticmethod
+    def check_var(name: str, value: str) -> tuple[bool, str]:
+        isvalid_var: bool = True
+        error_message: str = ""
+        return isvalid_var, error_message
 
     def get_var(self, name) -> Variable:
         """Getting a module-defined variable"""
@@ -105,7 +120,7 @@ class BaseModule(metaclass=ABCMeta):
             stdin=stdin,
             shell=True,
             universal_newlines=True,
-            env=dict(**environ, **env)
+            env=dict(**environ, **env),
         )
         for line in iter(self.proc.stderr.readline, ""):
             print(line, "\n")
