@@ -9,13 +9,15 @@ Cryptosploit modules
 
 Modules for ➡️ https://github.com/SNESEAR/cryptosploit ⬅️
 
+Check our documentation: https://cryptosploit.re86.ru/
+
 ### 📚 Templates
 
 You can write your module in any programming language, use prepared [modules templates](https://github.com/y73n0k/cryptosploit_modules/tree/main/templates) to facilitate the development process and structure your code.
 
 ### 📄 Documentation
 
-Use  [cryptosploit](https://cryptosploit.re86.ru/docs/cryptosploit.html) and [cryptosploit_modules](https://cryptosploit.re86.ru/docs/modules/cryptosploit_modules.html) **documentation** to get more information about module writing.
+Use  [cryptosploit](https://cryptosploit.re86.ru/docs/cryptosploit.html), [cryptosploit_modules](https://cryptosploit.re86.ru/docs/modules/cryptosploit_modules.html) **documentation** and [github wiki](https://github.com/y73n0k/cryptosploit_modules/wiki) to get more information about module writing.
 
 ### ✨ List of modules
 
@@ -43,4 +45,4 @@ Thank you for your interest and support!
 
 Module developers from the open source community are the soul of cryptosploit, 
 and by contributing your time and talent, you are helping advance the state of the
-art for cryptosploit community. We can't write all the modules by ourselves because of the time.
+art for cryptosploit community. We can't write all the modules by ourselves because of the time. **Thank you!**
