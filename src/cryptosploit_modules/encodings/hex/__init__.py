@@ -53,11 +53,10 @@ class Hex(BaseModule):
         Printer.positive("Decoded string:\n" + output.decode("utf-8"))
 
     def run(self):
-        mode = self.env.get_var("mode").value
         inp = self.env.get_var("input").value
         delimiter = self.env.get_var("delimiter").value
-        if mode and inp and delimiter:
-            func = getattr(self, mode + "_command")
+        if inp and delimiter:
+            func = getattr(self, self.env.get_var("mode").value + "_command")
             return func(inp, delimiter)
         raise ArgError("All variables must be set")
 
