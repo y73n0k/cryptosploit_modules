@@ -45,10 +45,9 @@ class Base85(BaseModule):
             raise ArgError("Your input is not valid base85 string") from err
 
     def run(self):
-        mode = self.env.get_var("mode").value
         inp = self.env.get_var("input").value
-        if mode and inp:
-            func = getattr(self, mode + "_command")
+        if inp:
+            func = getattr(self, self.env.get_var("mode").value + "_command")
             return func(inp)
         raise ArgError("All variables must be set")
 
