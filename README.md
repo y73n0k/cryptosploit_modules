@@ -21,13 +21,21 @@ Use  [cryptosploit](https://cryptosploit.re86.ru/docs/cryptosploit.html) and [cr
 
 Actual list of modules:
 
-| Type | Name |
-|------|------|
-| asymmetric.rsa | rsactftool |
-|hashes|cracker|
-|symmetric|affine|
-|symmetric|atbash|
-|symmetric|rot|
+| Type | Name | Description |
+|------|------|-------------|
+|asymmetric.rsa|rsactftool|Implementation of rsactftool|
+|encodings.base|base16|Base16 decoder/encoder|
+|encodings.base|base32|Base32 decoder/encoder|
+|encodings.base|base64|Base64 decoder/encoder|
+|encodings.base|base85|Base85 decoder/encoder|
+|encodings|hex|Hex decoder/encoder|
+|encodings|morse|Morse decoder/encoder|
+|encodings|urlencode|Encode/decode to URL-encoded format|
+|hashes|cracker|Bruteforce attack on hashes with Hashcat or JohnTheRipper|
+|symmetric|aes|Encrypt/decrypt/attack aes cipher. Possible attacks: ECB, CBC, OFB|
+|symmetric|affine|Encrypt/decrypt/attack affine cipher|
+|symmetric|atbash|Encrypt/decrypt/attack atbash cipher|
+|symmetric|rot|Encrypt/decrypt/attack rot cipher|
 
 ### 🙏 Thank you
 
