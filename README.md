@@ -32,7 +32,7 @@ Actual list of modules:
 |encodings|morse|Morse decoder/encoder|
 |encodings|urlencode|Encode/decode to URL-encoded format|
 |hashes|cracker|Bruteforce attack on hashes with Hashcat or JohnTheRipper|
-|symmetric|aes|Encrypt/decrypt/attack aes cipher. Possible attacks: ECB, CBC, OFB|
+|symmetric|aes|Encrypt/decrypt aes cipher. Possible modes: ECB, CBC, OFB|
 |symmetric|affine|Encrypt/decrypt/attack affine cipher|
 |symmetric|atbash|Encrypt/decrypt/attack atbash cipher|
 |symmetric|rot|Encrypt/decrypt/attack rot cipher|
