@@ -5,6 +5,14 @@
     },
     "input": {
         "value": "",
-        "description": "String to be processed"
+        "description": "String or path to the file to be processed"
+    },
+    "letter_delimiter": {
+        "value": " ",
+        "description": "Separating letters by letter_delimiter"
+    },
+    "word_delimiter": {
+        "value": "/",
+        "description": "Separating words by word_delimiter"
     }
 }
