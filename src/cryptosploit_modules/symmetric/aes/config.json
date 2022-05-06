@@ -1,7 +1,7 @@
 {
     "aes_mode": {
         "value": "ECB",
-        "description": "Operation mode. May be attack/decrypt/encrypt"
+        "description": "Operation mode. May be decrypt/encrypt"
     },
     "iv": {
         "value": "",
