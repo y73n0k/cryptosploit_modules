@@ -119,8 +119,10 @@ class Morse(BaseModule):
                 and len(word_delimiter) > 1
             ):
                 word_delimiter = word_delimiter[1:-1]
-            func = getattr(self, self.env.get_var("mode").value + "_command")
-            return func(inp, letter_delimiter, word_delimiter)
+            if letter_delimiter:
+                func = getattr(self, self.env.get_var("mode").value + "_command")
+                return func(inp, letter_delimiter, word_delimiter)
+            raise ArgError("Letter delimiter must be not empty")
         raise ArgError("Input must be set")
 
 

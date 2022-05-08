@@ -45,7 +45,10 @@ class Hex(BaseModule):
         if isfile(inp):
             with open(inp) as f:
                 inp = f.read()
-        inp = bytes("".join(inp.split(delimiter)), encoding="utf-8")
+        if delimiter:
+            inp = bytes("".join(inp.split(delimiter)), encoding="utf-8")
+        else:
+            inp = bytes("".join((inp[i-2:i] for i in range(2, len(inp), 2))), encoding="utf-8")
         try:
             output = decode(inp, "hex")
         except Error as err:
