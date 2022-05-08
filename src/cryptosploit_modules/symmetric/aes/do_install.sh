@@ -1,1 +1,1 @@
-pip install pycryptodome
+pip install pycrypto pycryptodome
