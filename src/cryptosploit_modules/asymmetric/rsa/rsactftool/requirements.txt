@@ -5,10 +5,10 @@ urllib3
 requests
 gmpy
 gmpy2
+pycrypto
 pycryptodome
 tqdm
 z3-solver
-pycrypto
 bitarray
 egcd
 wolframalpha
