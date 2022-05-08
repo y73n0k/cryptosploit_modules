@@ -55,10 +55,16 @@ class Hex(BaseModule):
     def run(self):
         inp = self.env.get_var("input").value
         delimiter = self.env.get_var("delimiter").value
-        if inp and delimiter:
+        if inp:
+            if (
+                delimiter.startswith('"')
+                and delimiter.endswith('"')
+                and len(delimiter) > 1
+            ):
+                delimiter = delimiter[1:-1]
             func = getattr(self, self.env.get_var("mode").value + "_command")
             return func(inp, delimiter)
-        raise ArgError("All variables must be set")
+        raise ArgError("Input must be set")
 
 
 module = Hex

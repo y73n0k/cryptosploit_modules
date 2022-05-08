@@ -106,10 +106,22 @@ class Morse(BaseModule):
                 inp = f.read()
         letter_delimiter = self.env.get_var("letter_delimiter").value
         word_delimiter = self.env.get_var("word_delimiter").value
-        if inp and letter_delimiter and word_delimiter:
+        if inp:
+            if (
+                letter_delimiter.startswith('"')
+                and letter_delimiter.endswith('"')
+                and len(letter_delimiter) > 1
+            ):
+                letter_delimiter = letter_delimiter[1:-1]
+            if (
+                word_delimiter.startswith('"')
+                and word_delimiter.endswith('"')
+                and len(word_delimiter) > 1
+            ):
+                word_delimiter = word_delimiter[1:-1]
             func = getattr(self, self.env.get_var("mode").value + "_command")
             return func(inp, letter_delimiter, word_delimiter)
-        raise ArgError("All variables must be set")
+        raise ArgError("Input must be set")
 
 
 module = Morse
