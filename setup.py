@@ -7,9 +7,8 @@ class PostInstall(install):
     def run(self):
         super().run()
         module_path = os.path.join(self.install_lib, "cryptosploit_modules")
-        os.system(f"python -m venv {module_path}/venv")
         os.system(
-            f"source {module_path}/venv/bin/activate && find {module_path} -name do_install.sh -print0 | xargs -0 -I [] sh -c 'cd $(dirname []) && source ./do_install.sh' && deactivate"
+            f"find {module_path} -name do_install.sh -print0 | xargs -0 -I [] sh -c 'cd $(dirname []) && source ./do_install.sh'"
         )
 
 

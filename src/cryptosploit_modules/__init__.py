@@ -116,15 +116,12 @@ class BaseModule(metaclass=ABCMeta):
         Printer.exec(f"Executing '{command}'")
         self.proc = Popen(
             command,
-            stderr=PIPE,
             stdin=stdin,
             shell=True,
             universal_newlines=True,
             env=dict(**environ, **env),
         )
-        for line in iter(self.proc.stderr.readline, ""):
-            print(line, "\n")
-        self.proc.stderr.close()
+        self.proc.wait()
 
     def __load(self) -> Environment:
         """Load config with module variables"""
