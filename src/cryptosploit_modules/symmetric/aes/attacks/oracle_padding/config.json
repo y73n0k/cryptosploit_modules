@@ -1,0 +1,18 @@
+{
+    "iv": {
+        "value": "",
+        "description": "Initialization vector"
+    },
+    "ciphertext": {
+        "value": "",
+        "description": "Ciphertext"
+    },
+    "blocksize":{
+        "value": "16",
+        "description": "AES CBC ciphertext block size"
+    },
+    "proxy": {
+        "value": "",
+        "description": "Python file with function send(iv, payload)\nwhere args are base64 and\nwhich returns True if server says that decryption successful otherwise False"
+    }
+}
