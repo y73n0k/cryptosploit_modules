@@ -30,7 +30,7 @@ class Vigenere(BaseModule):
         inp = self.env.get_var("input").value
         d = {c: i for i, c in enumerate(alphabet)}
         for m, k in zip(inp, cycle(key)):
-            res += alphabet[(d[m] + d[k]) % len(alphabet)]
+            result += alphabet[(d[m] + d[k]) % len(alphabet)]
         return result
 
     def decrypt(self):
@@ -40,7 +40,7 @@ class Vigenere(BaseModule):
         inp = self.env.get_var("input").value
         d = {c: i for i, c in enumerate(alphabet)}
         for c, k in zip(inp, cycle(key)):
-            res += alphabet[(d[c] - d[k]) % len(alphabet)]
+            result += alphabet[(d[c] - d[k]) % len(alphabet)]
         return result
 
     def run(self):
