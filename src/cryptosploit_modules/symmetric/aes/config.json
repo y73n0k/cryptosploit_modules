@@ -1,7 +1,7 @@
 {
     "aes_mode": {
         "value": "ECB",
-        "description": "Operation mode. May be decrypt/encrypt"
+        "description": "AES mode. May be be ECB/CBC/OFB"
     },
     "iv": {
         "value": "",
@@ -13,7 +13,7 @@
     },
     "mode": {
         "value": "decrypt",
-        "description": "decrypt/encrypt"
+        "description": "Operation mode. May be decrypt/encrypt"
     },
     "plaintext": {
         "value": "",
