@@ -13,4 +13,4 @@ bitarray
 egcd
 wolframalpha
 SageMath
-psutils
+psutil
