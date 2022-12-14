@@ -16,7 +16,7 @@ class Vigenere(BaseModule):
                     return True, ""
                 return False, "May be decrypt/encrypt"
             case "key":
-                alphabet = set(self.env.get_var("alphabet"))
+                alphabet = set(self.env.get_var("alphabet").value)
                 if not all((c in alphabet for c in value)):
                     return False, "Key must contains only alphabet symbols"
                 return True, None
@@ -26,7 +26,7 @@ class Vigenere(BaseModule):
     def encrypt(self):
         result = ""
         key = int(self.env.get_var("key").value)
-        alphabet = self.env.get_var("alphabet").value.upper()
+        alphabet = self.env.get_var("alphabet").value
         inp = self.env.get_var("input").value
         d = {c: i for i, c in enumerate(alphabet)}
         for m, k in zip(inp, cycle(key)):
@@ -36,7 +36,7 @@ class Vigenere(BaseModule):
     def decrypt(self):
         result = ""
         key = int(self.env.get_var("key").value)
-        alphabet = self.env.get_var("alphabet").value.upper()
+        alphabet = self.env.get_var("alphabet").value
         inp = self.env.get_var("input").value
         d = {c: i for i, c in enumerate(alphabet)}
         for c, k in zip(inp, cycle(key)):
