@@ -25,7 +25,7 @@ class Vigenere(BaseModule):
 
     def encrypt(self):
         result = ""
-        key = int(self.env.get_var("key").value)
+        key = self.env.get_var("key").value
         alphabet = self.env.get_var("alphabet").value
         inp = self.env.get_var("input").value
         d = {c: i for i, c in enumerate(alphabet)}
@@ -35,7 +35,7 @@ class Vigenere(BaseModule):
 
     def decrypt(self):
         result = ""
-        key = int(self.env.get_var("key").value)
+        key = self.env.get_var("key").value
         alphabet = self.env.get_var("alphabet").value
         inp = self.env.get_var("input").value
         d = {c: i for i, c in enumerate(alphabet)}
