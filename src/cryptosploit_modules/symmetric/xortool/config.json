@@ -1,0 +1,26 @@
+{
+    "mode": {
+        "value": "help",
+        "description": "Operation mode. May be xortool/help/advanced.\nJust type run. Advanced users can\npass all the arguments in extra_flags"
+    },
+    "xored_file": {
+        "value": "",
+        "description": "Path to file for processing."
+    },
+    "key_len": {
+        "value": "",
+        "description": "Length of the key."
+    },
+    "most_frequent_char": {
+        "value": "",
+        "description": "Most frequent char. (one char or hex code)"
+    },
+    "plain_text": {
+        "value": "",
+        "description": "Use known plaintext for decoding."
+    },
+    "extra_flags": {
+        "value": "",
+        "description": "Add your own flags.\nFor example, '--brute-chars --max-keylen=MAX-LEN --hex'"
+    }
+}
