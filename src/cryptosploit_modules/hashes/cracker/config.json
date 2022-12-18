@@ -4,7 +4,7 @@
         "description": "Default program to crack hashes (hashcat/john). \n You must install one of these tools."
     },
     "mode": {
-        "value": "help",
+        "value": "crack",
         "description": "Operation mode. May be crack/help/advanced.\nJust type run. Advanced users can\npass all the arguments in extra_flags"
     },
     "hash_file": {

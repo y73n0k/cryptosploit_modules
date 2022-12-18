@@ -1,5 +1,5 @@
 from cryptosploit_modules import BaseModule
-from cryptosploit.exceptions import ModuleError, ArgError
+from cryptosploit.exceptions import ArgError
 from os.path import exists
 from sys import path
 
@@ -30,7 +30,7 @@ class Cracker(BaseModule):
                 for i in ("crack", "help", "advanced"):
                     if value == i:
                         return True, ""
-                return False, f"Possible values: crack/help/advanced"
+                return False, "Possible values: crack/help/advanced"
 
             case "path_to_binary":
                 if exists(value):
@@ -93,19 +93,16 @@ class Cracker(BaseModule):
         raise ArgError("Not enough variables to crack.")
 
     def advanced_command(self):
-        flags = " " + self.env.get_var("extra_flags").value
+        flags = self.env.get_var("extra_flags").value
         if flags:
-            return self.command_generator() + flags
+            return self.command_generator() + " " + flags
         else:
             raise ArgError("Variable 'extra_flags' must be set")
 
     def run(self):
         func = getattr(self, self.env.get_var("mode").value + "_command")
         command = func()
-        self.command_exec(
-            command,
-            {"PYTHONPATH": ":".join(path)}
-        )
+        self.command_exec(command, {"PYTHONPATH": ":".join(path)})
 
 
 module = Cracker
