@@ -1,0 +1,22 @@
+{
+    "mode": {
+        "value": "basic",
+        "description": "Operation mode. May be help/basic/advanced.\nJust type run. Advanced users can\npass all the arguments in extra_flags"
+    },
+    "input_type": {
+        "value": "text",
+        "description": "Type of your input: stdin text/file"
+    },
+    "text": {
+        "value": "",
+        "description": "Text to decrypt."
+    },
+    "encrypted_file": {
+        "value": "",
+        "description": "Path to file with ciphertext."
+    },
+    "extra_flags": {
+        "value": "",
+        "description": "Add your own flags.\nFor example, '-p ausearch.enable_nested=True -q'"
+    }
+}
